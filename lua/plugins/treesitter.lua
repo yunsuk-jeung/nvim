@@ -6,10 +6,10 @@ return {
       "c",
       "cpp",
       "lua",
-      "python", -- 필요한 언어를 설치
+      "python",
     },
     highlight = {
-      enable = true, -- 구문 강조 활성화
+      enable = true,
       additional_vim_regex_highlighting = false,
     },
   },
