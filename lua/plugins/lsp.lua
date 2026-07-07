@@ -13,7 +13,17 @@ return {
       require('mason').setup()
 
       local servers = {
-        -- basedpyright = {},
+        basedpyright = {
+          settings = {
+            basedpyright = {
+              analysis = {
+                typeCheckingMode = 'standard',
+                diagnosticMode = 'openFilesOnly',
+              },
+            },
+          },
+        },
+        ruff = {},
         clangd={},
         dockerls = {},
         jsonls = {},
@@ -30,6 +40,11 @@ return {
           },
         },
       }
+
+      local venv = vim.env.CONDA_PREFIX or vim.env.VIRTUAL_ENV
+      if venv then
+        servers.basedpyright.settings.python = { pythonPath = venv .. '/bin/python' }
+      end
 
       require('mason-lspconfig').setup {
         ensure_installed = vim.tbl_keys(servers),
