@@ -37,8 +37,10 @@ vim.keymap.set({ 'n', 'o', 'x' }, 'L', '$', opts)
 vim.keymap.set({ 'n', 'o', 'x' }, 'H', '^', opts)
 
 -- Buffers
-vim.keymap.set('n', '<Tab>', ':bnext<CR>', opts)
-vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', opts)
+if not vim.g.vscode then
+  vim.keymap.set('n', '<Tab>', ':bnext<CR>', opts)
+  vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', opts)
+end
 vim.keymap.set('n', '<leader>x', ':bdelete!<CR>', opts) -- close buffer
 vim.keymap.set('n', '<leader>b', '<cmd> enew <CR>', opts) -- new buffer
 

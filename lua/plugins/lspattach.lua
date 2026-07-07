@@ -41,7 +41,12 @@ local on_attach = function(client, bufnr)
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-    vim.lsp.buf.format()
+    local ok, conform = pcall(require, 'conform')
+    if ok then
+      conform.format { bufnr = bufnr, lsp_format = 'fallback' }
+      return
+    end
+    vim.lsp.buf.format { bufnr = bufnr }
   end, { desc = 'Format current buffer with LSP' })
 
   -- if client:supports_method 'textDocument/foldingRange' then

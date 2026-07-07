@@ -1,2 +1,5 @@
 .env
 .luarc.json
+nvim.log
+*.deb
+test.xml

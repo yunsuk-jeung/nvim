@@ -12,6 +12,7 @@ return {
         typescript = { 'prettier' },
         typescriptreact = { 'prettier' },
         yaml = { 'prettier' },
+        xml = { 'xmllint' },
         cs = { 'csharpier' },
         -- markdown = { 'prettier' },
         -- html = { 'prettier' },

@@ -7,9 +7,43 @@ return { -- Highlight, edit, and navigate code
       'JoosepAlviste/nvim-ts-context-commentstring',
     },
     config = function(_, opts)
-      require('nvim-treesitter').setup {
+      local ts = require 'nvim-treesitter'
+      ts.setup {
         install_dir = opts.install_dir,
       }
+
+      if opts.ensure_installed and #opts.ensure_installed > 0 then
+        pcall(ts.install, opts.ensure_installed)
+      end
+
+      if opts.auto_install then
+        local pending_install = {}
+        local parsers = require 'nvim-treesitter.parsers'
+        vim.api.nvim_create_autocmd('FileType', {
+          group = vim.api.nvim_create_augroup('user-treesitter-auto-install', { clear = true }),
+          callback = function(args)
+            local ft = vim.bo[args.buf].filetype
+            if ft == '' then
+              return
+            end
+
+            local lang = vim.treesitter.language.get_lang(ft) or ft
+            if not parsers[lang] then
+              return
+            end
+            if pending_install[lang] then
+              return
+            end
+
+            local installed = ts.get_installed()
+            if not vim.list_contains(installed, lang) then
+              pending_install[lang] = true
+              pcall(ts.install, lang)
+              pending_install[lang] = nil
+            end
+          end,
+        })
+      end
 
       vim.api.nvim_create_autocmd('FileType', {
         group = vim.api.nvim_create_augroup('user-treesitter-highlight', { clear = true }),
@@ -79,6 +113,7 @@ return { -- Highlight, edit, and navigate code
         'c_sharp',
         'cpp',
         'prisma',
+        'xml',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
