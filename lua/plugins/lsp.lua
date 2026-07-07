@@ -36,7 +36,8 @@ return {
       }
 
       require('mason-tool-installer').setup {
-        ensure_installed = vim.tbl_keys(servers),
+        -- LSP servers plus standalone tools (formatters/linters) used by conform & nvim-lint
+        ensure_installed = vim.list_extend(vim.tbl_keys(servers), { 'sqlfluff' }),
       }
 
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -64,28 +65,5 @@ return {
         end
       end
     end,
-  },
-  {
-    -- {
-    --   'jay-babu/mason-null-ls.nvim',
-    --   dependencies = {
-    'nvimtools/none-ls.nvim',
-    --   'williamboman/mason.nvim',
-    -- },
-    config = function()
-      -- require('mason-null-ls').setup {
-      --   ensure_installed = { 'sqlfluff' },
-      --   automatic_installation = true,
-      -- }
-      local null_ls = require 'null-ls'
-      null_ls.setup {
-        sources = {
-          null_ls.builtins.diagnostics.sqlfluff,
-          null_ls.builtins.formatting.sqlfluff,
-        },
-        on_attach = require 'plugins.lspattach',
-      }
-    end,
-    -- },
   },
 }

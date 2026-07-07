@@ -30,6 +30,7 @@ require('lazy').setup {
   require 'plugins.lsp',
   require 'plugins.autocompletion',
   require 'plugins.conform',
+  require 'plugins.lint',
   require 'plugins.gitsigns',
   require 'plugins.indent-blankline',
   require 'plugins.comment',

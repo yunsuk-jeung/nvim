@@ -14,6 +14,7 @@ return {
         yaml = { 'prettier' },
         xml = { 'xmllint' },
         cs = { 'csharpier' },
+        sql = { 'sqlfluff' },
         -- markdown = { 'prettier' },
         -- html = { 'prettier' },
         prisma = { 'prettier' },
